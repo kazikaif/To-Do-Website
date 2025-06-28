@@ -1,15 +1,41 @@
 import './index.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import loginlogo from './Images/Login.png';
+import { useState } from 'react';
 
 function Login() {
+  const [username, setUsername] = useState()
+  const [password, setPassword] = useState()
+
+     
+
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    navigate("/");
-    alert("Login Successfully");
-  };
+const handleSubmit = (e) => {
+  e.preventDefault();
+
+  fetch("http://localhost:5000/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, password }),
+  })
+    .then((res) => res.json())
+    .then((result) => {
+      if (result.message === "Login successful") {
+          localStorage.setItem("isLoggedIn", "true");
+
+        alert("Login Successfully");
+        navigate("/");
+      } else {
+        alert("Invalid Credentials");
+      }
+    })
+    .catch((err) => {
+      console.error("Login error:", err);
+      alert("Something went wrong");
+    });
+};
+
 
   return (
     <div className="lg">
@@ -21,12 +47,16 @@ function Login() {
           type="text"
           name="username"
           placeholder="Username"
+          value={username}
+          onChange={(e)=>setUsername(e.target.value)}
           required
         />
         <input
           type="password"
           name="password"
           placeholder="Password"
+          value={password}
+          onChange={(e)=>setPassword(e.target.value)}
           required
         />
         <div className="link">

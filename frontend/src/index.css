@@ -9,7 +9,7 @@ body {
 
 /* Header */
 header {
-  background-color: #5E503F;
+  background-color: #5e503f;
   height: 70px;
   display: flex;
   justify-content: space-between;
@@ -34,7 +34,7 @@ header {
 }
 .nv:hover {
   transform: scale(1.05);
- }
+}
 .nav button {
   font-size: 20px;
   padding: 10px;
@@ -47,6 +47,33 @@ header {
 .nav button:hover {
   background-color: green;
   color: beige;
+  transform: scale(1.05);
+}
+
+.navbar {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  margin: 1rem auto;
+  max-width: 800px;
+}
+
+.nav-item {
+  color: beige;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.2rem;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.nav-item:hover {
+  background-color: beige;
+  color: #5e503f;
   transform: scale(1.05);
 }
 
@@ -65,11 +92,11 @@ main {
   width: 350px;
   font-size: 20px;
   margin-bottom: 20px;
-  background-color: rgb(243, 114, 63);
-  color: beige;
+  background-color: rgb(248, 96, 41);
+  color: white;
   border: none;
   outline: none;
-  box-shadow: 0 5px 20px rgba(0.25, 0.25, 5, .25);
+  box-shadow: 0 5px 20px rgba(0.25, 0.25, 5, 0.25);
   border-radius: 10px;
 }
 .inp1::placeholder {
@@ -80,7 +107,7 @@ main {
   border-radius: 10px;
   color: beige;
   outline: none;
-  background-color: rgb(243, 114, 63);
+  background-color: rgb(248, 96, 41);
   width: 500px;
   height: 100px;
   border: none;
@@ -170,7 +197,8 @@ main {
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   margin-top: 20px;
-  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease,
+    box-shadow 0.3s ease;
 }
 .l:hover {
   background-color: #0056b3;
@@ -251,7 +279,8 @@ main {
   cursor: pointer;
   margin-top: 5px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease,
+    box-shadow 0.3s ease;
 }
 .l2:hover {
   background-color: #0056b3;
@@ -291,11 +320,15 @@ main {
   height: 350px;
   padding: 10px;
   margin-left: 25px;
-  background-color: #5E503F;
+  background-color: #5e503f;
   border-radius: 10px;
   color: beige;
   box-shadow: 0 2px 28px rgba(0, 0, 0, 0.2);
- }
+  transition: all 0.3s ease;
+}
+.dats:hover {
+  transform: scale(1.05);
+}
 
 /* Top row: index + buttons */
 .top-row {
@@ -360,5 +393,114 @@ main {
   display: flex;
   flex-direction: column;
   text-align: left;
+}
+
+.img {
+  height: 50px;
+  width: 50px;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  cursor: pointer;
+}
+.img:hover {
+  transform: scale(1.1);
+}
+
+.cn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
  }
 
+.Contact {
+  padding: 30px;
+  text-align: center;
+}
+
+.contact {
+  margin-top: 50px;
+  font-size: 50px;
+  display: flex;
+  font-weight: bold;
+  justify-content: center;
+     color: #5e503f;
+}
+
+.con {
+  font-size: 1.5em;
+  display: grid;
+ }
+
+.ph {
+  font-weight: bold;
+  margin-right: 15px;
+color: rgb(160, 160, 135);  
+}
+
+.no {
+  color: #333;
+  color: beige;
+}
+ 
+
+.link {
+  margin-top: 50px;
+  margin-right: 20px;
+}
+
+.linkedin {
+  transition: transform 0.2s ease;
+
+  width: 40px;
+  height: 40px;
+  margin: 0 10px;
+}
+.linkedin:hover {
+  transform: scale(1.1);
+}
+
+.about {
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+.ab {
+  font-size: 50px;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #5e503f;
+}
+
+.about1 {
+  max-width: 800px;
+  margin: 0 auto;
+  margin-top: 50px;
+  padding: 1rem;
+  background-color: #5e503f;
+
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.info {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: beige;
+}
+
+.set {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.nav-item.active {
+  background-color: beige;
+  color: #5e503f;
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(94, 80, 63, 0.3);
+}
+
+.about2{
+  padding: 50px;
+}

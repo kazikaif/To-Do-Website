@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
-import "./index.css";
 import { useState, useEffect } from "react";
+import Header from "./Header";
+import "./index.css";
 import del from "./Images/del.png";
 import edit from "./Images/edit.png";
 
@@ -10,6 +10,7 @@ function Home() {
   const [taskList, setTaskList] = useState([]);
   const [isEditMode, setIsEditMode] = useState(false);
   const [editId, setEditId] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const getTasks = () => {
     fetch("http://localhost:5000/ToDo")
@@ -22,7 +23,18 @@ function Home() {
     getTasks();
   }, []);
 
-  const bal = () => {
+  useEffect(() => {
+    const checkLoginStatus = () => {
+      setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
+    };
+
+    checkLoginStatus();
+    window.addEventListener("storage", checkLoginStatus);
+
+    return () => window.removeEventListener("storage", checkLoginStatus);
+  }, []);
+
+  const handleTask = () => {
     if (task && content) {
       if (isEditMode) {
         fetch(`http://localhost:5000/update/${editId}`, {
@@ -69,29 +81,17 @@ function Home() {
     setContent(item.content);
     setIsEditMode(true);
     setEditId(item._id || item.id);
-    show();
+    showInput();
   };
 
-  const show = () => {
+  const showInput = () => {
     document.getElementById("textarea").style.display = "block";
     document.getElementById("btn2").style.display = "block";
   };
 
   return (
-    <div>
-      <header>
-        <div className="title">
-          <section>To-Do</section>
-        </div>
-        <div className="nav">
-          <nav className="nv">Home</nav>
-          <nav className="nv">About</nav>
-          <nav className="nv">Contact</nav>
-          <Link to={"/login"}>
-            <button>Login</button>
-          </Link>
-        </div>
-      </header>
+    <>
+      <Header isLoggedIn={isLoggedIn} />
 
       <main>
         <div className="imp">
@@ -99,7 +99,7 @@ function Home() {
             className="inp1"
             type="text"
             placeholder="Task..."
-            onClick={show}
+            onClick={showInput}
             onChange={(e) => setTask(e.target.value)}
             value={task}
           />
@@ -110,7 +110,7 @@ function Home() {
             value={content}
             onChange={(e) => setContent(e.target.value)}
           ></textarea>
-          <button className="btn2" id="btn2" onClick={bal}>
+          <button className="btn2" id="btn2" onClick={handleTask}>
             {isEditMode ? "Update" : "Add"}
           </button>
         </div>
@@ -139,7 +139,7 @@ function Home() {
           </div>
         ))}
       </div>
-    </div>
+    </>
   );
 }
 
