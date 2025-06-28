@@ -180,7 +180,7 @@ main {
   width: 250px;
   transition: transform 0.3s ease;
 }
-.link {
+.linkf {
   margin-right: 140px;
   margin-top: 10px;
 }
@@ -409,7 +409,7 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
- }
+}
 
 .Contact {
   padding: 30px;
@@ -422,25 +422,24 @@ main {
   display: flex;
   font-weight: bold;
   justify-content: center;
-     color: #5e503f;
+  color: #5e503f;
 }
 
 .con {
   font-size: 1.5em;
   display: grid;
- }
+}
 
 .ph {
   font-weight: bold;
   margin-right: 15px;
-color: rgb(160, 160, 135);  
+  color: rgb(160, 160, 135);
 }
 
 .no {
   color: #333;
   color: beige;
 }
- 
 
 .link {
   margin-top: 50px;
@@ -449,7 +448,7 @@ color: rgb(160, 160, 135);
 
 .linkedin {
   transition: transform 0.2s ease;
-
+  border-radius: 5px;
   width: 40px;
   height: 40px;
   margin: 0 10px;
@@ -493,7 +492,6 @@ color: rgb(160, 160, 135);
   align-items: center;
 }
 
-
 .nav-item.active {
   background-color: beige;
   color: #5e503f;
@@ -501,6 +499,84 @@ color: rgb(160, 160, 135);
   box-shadow: 0 0 10px rgba(94, 80, 63, 0.3);
 }
 
-.about2{
+.about2 {
   padding: 50px;
+  display: grid;
+}
+.pro {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px;
+  padding: 2rem;
+}
+
+.pp {
+  background-color: #5e503f;
+  color: beige;
+  padding: 30px;
+  border-radius: 15px;
+  width: 400px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.profile-title {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.profile-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.profile-inputs label {
+  font-weight: bold;
+  font-size: 1rem;
+  color: #f8f8f8;
+}
+
+.profile-inputs input {
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: none;
+  background-color: beige;
+  color: #5e503f;
+  outline: none;
+}
+
+.profile-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.profile-buttons button {
+  flex: 1;
+  padding: 10px;
+  font-size: 1rem;
+  background-color: beige;
+  color: #5e503f;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.profile-buttons button:hover {
+  transform: scale(1.05);
+  background-color: green;
+  color: beige;
+}
+.profile-inputs input,
+.password-field {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  box-sizing: border-box;
 }

@@ -4,11 +4,9 @@ import siginlogo from "./Images/siginlogo.png";
 import "./index.css";
 
 function Sigin() {
-const [username, setUsername] = useState("");
- 
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -21,7 +19,7 @@ const [username, setUsername] = useState("");
     })
       .then((res) => res.json())
       .then(() => {
-        alert("Register Successfully");
+        alert("Registered Successfully");
         navigate("/login");
       })
       .catch((err) => {
@@ -37,27 +35,10 @@ const [username, setUsername] = useState("");
         <section>
           <img className="siginlogo" src={siginlogo} alt="logo" />
         </section>
-        <input
-          type="text"
-          placeholder="Username"
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit" className="l2">
-          Sign-In
-        </button>
+        <input type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value)} required />
+        <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} required />
+        <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} required />
+        <button type="submit" className="l2">Sign-In</button>
         <div className="sg2">
           <section className="create">Already Created -</section>
           <section className="si">

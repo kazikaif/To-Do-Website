@@ -1,41 +1,40 @@
-import './index.css';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import loginlogo from './Images/Login.png';
-import { useState } from 'react';
+import "./index.css";
+import { useNavigate } from "react-router-dom";
+import loginlogo from "./Images/Login.png";
+import { useState } from "react";
 
 function Login() {
-  const [username, setUsername] = useState()
-  const [password, setPassword] = useState()
-
-     
-
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-const handleSubmit = (e) => {
-  e.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-  fetch("http://localhost:5000/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username, password }),
-  })
-    .then((res) => res.json())
-    .then((result) => {
-      if (result.message === "Login successful") {
-          localStorage.setItem("isLoggedIn", "true");
-
-        alert("Login Successfully");
-        navigate("/");
-      } else {
-        alert("Invalid Credentials");
-      }
+    fetch("http://localhost:5000/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
     })
-    .catch((err) => {
-      console.error("Login error:", err);
-      alert("Something went wrong");
-    });
-};
+      .then((res) => res.json())
+      .then((result) => {
+        if (result.message === "Login successful") {
+          localStorage.setItem("isLoggedIn", "true");
+          localStorage.setItem("userName", result.username);
+          localStorage.setItem("userEmail", result.email);
+          localStorage.setItem("userPassword", password);
 
+          alert("Login Successfully");
+          navigate("/");
+        } else {
+          alert(result.message);
+        }
+      })
+      .catch((err) => {
+        console.error("Login error:", err);
+        alert("Something went wrong");
+      });
+  };
 
   return (
     <div className="lg">
@@ -43,28 +42,12 @@ const handleSubmit = (e) => {
         <div>
           <img className="loginlogo" src={loginlogo} alt="Login Logo" />
         </div>
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          value={username}
-          onChange={(e)=>setUsername(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e)=>setPassword(e.target.value)}
-          required
-        />
-        <div className="link">
+        <input type="text" name="username" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} required />
+        <input type="password" name="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+        <div className="linkf">
           <a href="#">Forgot Password?</a>
         </div>
-        <button className="l" type="submit">
-          Login
-        </button>
+        <button className="l" type="submit">Login</button>
         <div className="sg">
           <section className="create">Create an Account -</section>
           <section className="si">

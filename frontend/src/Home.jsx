@@ -35,13 +35,15 @@ function Home() {
   }, []);
 
   const handleTask = () => {
-    if (task && content) {
-      if (isEditMode) {
-        fetch(`http://localhost:5000/update/${editId}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ task, content }),
-        })
+    if(isLoggedIn){
+
+      if (task && content) {
+        if (isEditMode) {
+          fetch(`http://localhost:5000/update/${editId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ task, content }),
+          })
           .then(() => {
             setTask("");
             setContent("");
@@ -50,23 +52,26 @@ function Home() {
             getTasks();
           })
           .catch((e) => console.log("Update error:", e));
+        } else {
+          fetch("http://localhost:5000/add", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ task, content }),
+          }).then(() => {
+            setTask("");
+            setContent("");
+            getTasks();
+          });
+        }
       } else {
-        fetch("http://localhost:5000/add", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ task, content }),
-        }).then(() => {
-          setTask("");
-          setContent("");
-          getTasks();
-        });
+        if (!task && !content) alert("Write Something...");
+        else if (!task) alert("Please Write Task");
+        else if (!content) alert("Please Write Content");
       }
-    } else {
-      if (!task && !content) alert("Write Something...");
-      else if (!task) alert("Please Write Task");
-      else if (!content) alert("Please Write Content");
+    }else{
+      alert("Login First")
     }
-  };
+  }
 
   const deleteTask = (id) => {
     fetch(`http://localhost:5000/delete/${id}`, {
@@ -117,28 +122,50 @@ function Home() {
       </main>
 
       <div className="view">
-        {taskList.map((item, i) => (
-          <div className="dats" key={item._id}>
-            <div className="top-row">
-              <section className="task-index">{i + 1}</section>
-              <div className="action-buttons">
-                <button onClick={() => editTask(item)}>
-                  <img src={edit} alt="Edit" />
-                </button>
-                <button className="bt" onClick={() => deleteTask(item._id)}>
-                  <img className="size" src={del} alt="Delete" />
-                </button>
-              </div>
+  {isLoggedIn ? (
+    taskList.length > 0 ? (
+      taskList.map((item, i) => (
+        <div className="dats" key={item._id}>
+          <div className="top-row">
+            <section className="task-index">{i + 1}</section>
+            <div className="action-buttons">
+              <button onClick={() => editTask(item)}>
+                <img src={edit} alt="Edit" />
+              </button>
+              <button className="bt" onClick={() => deleteTask(item._id)}>
+                <img className="size" src={del} alt="Delete" />
+              </button>
             </div>
-            <section className="task-title">{item.task}</section>
-            <section className="task-content">
-              {item.content.length > 212
-                ? item.content.slice(0, 212) + "..."
-                : item.content}
-            </section>
           </div>
-        ))}
-      </div>
+          <section className="task-title">{item.task}</section>
+          <section className="task-content">
+            {item.content.length > 212
+              ? item.content.slice(0, 212) + "..."
+              : item.content}
+          </section>
+        </div>
+      ))
+    ) : (
+      <h2>No Tasks Found</h2>
+    )
+  ) : (
+<div style={{ 
+  display: "flex", 
+  justifyContent: "center", 
+  alignItems: "center", 
+  height: "50px", 
+  width: "97.5vw", 
+ marginTop:"80px"   
+ }}>
+  <h2 style={{ fontSize: "35px", color: "red", textAlign: "center" }}>
+    Please login first
+  </h2>
+</div>
+
+  )}
+</div>
+
+
     </>
   );
 }
