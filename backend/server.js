@@ -6,22 +6,23 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// ✅ Replace <password> and <dbname> with your actual credentials
 mongoose
-  .connect("mongodb+srv://Deny:Kazi%402004@cluster0.k6ilpqj.mongodb.net/ToDo?retryWrites=true&w=majority&appName=Cluster0", {
+  .connect("mongodb+srv://Deny:Kazi@2004@cluster0.k6ilpqj.mongodb.net/ToDo?retryWrites=true&w=majority", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
   .then(() => console.log("MongoDB Connected"))
-  .catch((e) => console.log("MongoDB connection error:", e));
+  .catch((e) => console.error("MongoDB Connection Error:", e));
 
-// Task Schema
+// ✅ Task Schema
 const TaskSchema = new mongoose.Schema({
   task: { type: String, required: true },
   content: { type: String, required: true },
 });
 const Task = mongoose.model("Task", TaskSchema);
 
-// User Schema
+// ✅ User Schema
 const UserSchema = new mongoose.Schema({
   username: { type: String, required: true },
   email: { type: String, required: true },
@@ -29,7 +30,7 @@ const UserSchema = new mongoose.Schema({
 });
 const User = mongoose.model("User", UserSchema);
 
-// Task Routes
+// ✅ Create Task
 app.post("/add", (req, res) => {
   const { task, content } = req.body;
   const newTask = new Task({ task, content });
@@ -37,56 +38,59 @@ app.post("/add", (req, res) => {
   newTask
     .save()
     .then(() => res.json("Task saved"))
-    .catch((e) => res.json(e));
+    .catch((e) => res.status(500).json({ error: "Failed to save task", details: e }));
 });
 
+// ✅ Get All Tasks
 app.get("/ToDo", (req, res) => {
   Task.find()
     .then((data) => res.json(data))
     .catch((e) => res.status(500).json({ error: "Failed to fetch tasks", details: e }));
 });
 
+// ✅ Delete Task
 app.delete("/delete/:id", (req, res) => {
   Task.findByIdAndDelete(req.params.id)
     .then(() => res.json("Task Deleted"))
-    .catch((e) => res.json(e));
+    .catch((e) => res.status(500).json({ error: "Failed to delete task", details: e }));
 });
 
+// ✅ Update Task
 app.put("/update/:id", (req, res) => {
   const { task, content } = req.body;
   Task.findByIdAndUpdate(req.params.id, { task, content })
     .then(() => res.json("Task Updated"))
-    .catch((e) => res.json(e));
+    .catch((e) => res.status(500).json({ error: "Failed to update task", details: e }));
 });
 
-// User Routes
+// ✅ Register User
 app.post("/register", (req, res) => {
   const { username, email, password } = req.body;
+
   const newUser = new User({ username, email, password });
 
   newUser
     .save()
-    .then(() => res.json("User created"))
-    .catch((e) => res.json(e));
+    .then(() => res.json({ message: "User created" }))
+    .catch((e) => res.status(500).json({ message: "Failed to register user", error: e }));
 });
 
+// ✅ Login User
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
 
   User.findOne({ username })
     .then((user) => {
-      if (user) {
-        if (user.password === password) {
-          res.json({
-            message: "Login successful",
-            username: user.username,
-            email: user.email,
-          });
-        } else {
-          res.json({ message: "Invalid password" });
-        }
+      if (!user) return res.json({ message: "User not found" });
+
+      if (user.password === password) {
+        res.json({
+          message: "Login successful",
+          username: user.username,
+          email: user.email,
+        });
       } else {
-        res.json({ message: "User not found" });
+        res.json({ message: "Invalid password" });
       }
     })
     .catch((e) => {
@@ -94,6 +98,8 @@ app.post("/login", (req, res) => {
     });
 });
 
-app.listen(5000, () => {
-  console.log("Server running on port 5000");
+// ✅ Run Server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
