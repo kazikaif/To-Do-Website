@@ -12,11 +12,12 @@ function Sigin() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    fetch("http://localhost:5000/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, email, password }),
-    })
+   fetch("https://to-do-website-brg2.onrender.com/register", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ username, email, password }),
+})
+
       .then((res) => res.json())
       .then(() => {
         alert("Registered Successfully");

@@ -8,7 +8,7 @@ function Profile() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);  
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
@@ -46,38 +46,28 @@ function Profile() {
           <div className="profile-inputs">
             <label>Username:</label>
             <input type="text" value={username} readOnly />
-            
+
             <label>Email:</label>
             <input type="email" value={email} readOnly />
-            
-           <label>Password:</label>
-<div style={{ position: "relative" }}>
-  <input
-    type={showPassword ? "text" : "password"}
-    value={password}
-    readOnly
-    className="password-field"
-  />
-  <button
-    type="button"
-    onClick={togglePasswordVisibility}
-    style={{
-      position: "absolute",
-      top: "30%",
-      right: "10px",
-      transform: "translateY(-50%)",
-      background: "none",
-      border: "none",
-      cursor: "pointer",
-      fontSize: "16px"
-    }}
-  >
-    {showPassword ? "🙈" : "👁️‍🗨️"}
-  </button>
-</div>
 
-
+            <label>Password:</label>
+            <div className="password-wrapper">
+              <input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                readOnly
+                className="password-field"
+              />
+              <button
+                type="button"
+                onClick={togglePasswordVisibility}
+                className="toggle-password"
+              >
+                {showPassword ? "🙈" : "👁️"}
+              </button>
+            </div>
           </div>
+
           <div className="profile-buttons">
             <button onClick={Home}>🏠 Home</button>
             <button onClick={Logout}>🚪 Logout</button>

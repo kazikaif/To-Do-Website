@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
-import Header from "./Header"; // adjust the path if in different folder
+import Header from "./Header";
 import "./index.css";
 
 function About() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    const loginStatus = localStorage.getItem("isLoggedIn") === "true";
-    setIsLoggedIn(loginStatus);
+    setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
   }, []);
 
   return (

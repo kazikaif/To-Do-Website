@@ -7,12 +7,12 @@ app.use(cors());
 app.use(express.json());
 
 mongoose
-  .connect("mongodb://localhost:27017/ToDo", {
+  .connect("mongodb+srv://Deny:Kazi%402004@cluster0.k6ilpqj.mongodb.net/ToDo?retryWrites=true&w=majority&appName=Cluster0", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
   .then(() => console.log("MongoDB Connected"))
-  .catch((e) => console.log(e));
+  .catch((e) => console.log("MongoDB connection error:", e));
 
 // Task Schema
 const TaskSchema = new mongoose.Schema({

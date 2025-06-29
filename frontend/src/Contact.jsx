@@ -10,14 +10,15 @@ function Contact() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    const loginStatus = localStorage.getItem("isLoggedIn") === "true";
-    setIsLoggedIn(loginStatus);
+    setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
   }, []);
 
   return (
     <>
       <Header isLoggedIn={isLoggedIn} />
+      
       <section className="contact">Contact</section>
+
       <div className="cn">
         <div className="Contact" id="contact">
           <div className="about1 about2">
@@ -27,37 +28,37 @@ function Contact() {
             <span className="ph">Email:</span>
             <span className="no">denycoding2004@gmail.com</span>
 
-          <div className="link">
-            <a
-              href="https://www.linkedin.com/in/kazi-mohammad-kaif-57b11423b/"
-              target="_blank"
-              rel="noreferrer"
+            <div className="link">
+              <a
+                href="https://www.linkedin.com/in/kazi-mohammad-kaif-57b11423b/"
+                target="_blank"
+                rel="noreferrer"
               >
-              <img className="linkedin" src={linkedin} alt="LinkedIn" />
-            </a>
-            <a
-              href="https://github.com/kazikaif"
-              target="_blank"
-              rel="noreferrer"
+                <img className="linkedin" src={linkedin} alt="LinkedIn" />
+              </a>
+              <a
+                href="https://github.com/kazikaif"
+                target="_blank"
+                rel="noreferrer"
               >
-              <img className="linkedin" src={github} alt="GitHub" />
-            </a>
-            <a
-              href="https://vercel.com/kazi-mohammad-kaifs-projects"
-              target="_blank"
-              rel="noreferrer"
+                <img className="linkedin" src={github} alt="GitHub" />
+              </a>
+              <a
+                href="https://vercel.com/kazi-mohammad-kaifs-projects"
+                target="_blank"
+                rel="noreferrer"
               >
-              <img className="linkedin" src={vercel} alt="Vercel" />
-            </a>
-            <a
-              href="https://www.instagram.com/_.kaifffff_29/"
-              target="_blank"
-              rel="noreferrer"
+                <img className="linkedin" src={vercel} alt="Vercel" />
+              </a>
+              <a
+                href="https://www.instagram.com/_.kaifffff_29/"
+                target="_blank"
+                rel="noreferrer"
               >
-              <img className="linkedin" src={insta} alt="Instagram" />
-            </a>
+                <img className="linkedin" src={insta} alt="Instagram" />
+              </a>
+            </div>
           </div>
-              </div>
         </div>
       </div>
     </>

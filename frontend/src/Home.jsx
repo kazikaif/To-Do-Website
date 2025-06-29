@@ -12,8 +12,10 @@ function Home() {
   const [editId, setEditId] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  const baseURL = "https://to-do-website-brg2.onrender.com";
+
   const getTasks = () => {
-    fetch("http://localhost:5000/ToDo")
+    fetch(`${baseURL}/ToDo`)
       .then((res) => res.json())
       .then((data) => setTaskList(data))
       .catch((e) => console.error("Error fetching tasks:", e));
@@ -35,25 +37,24 @@ function Home() {
   }, []);
 
   const handleTask = () => {
-    if(isLoggedIn){
-
+    if (isLoggedIn) {
       if (task && content) {
         if (isEditMode) {
-          fetch(`http://localhost:5000/update/${editId}`, {
+          fetch(`${baseURL}/update/${editId}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ task, content }),
           })
-          .then(() => {
-            setTask("");
-            setContent("");
-            setIsEditMode(false);
-            setEditId(null);
-            getTasks();
-          })
-          .catch((e) => console.log("Update error:", e));
+            .then(() => {
+              setTask("");
+              setContent("");
+              setIsEditMode(false);
+              setEditId(null);
+              getTasks();
+            })
+            .catch((e) => console.log("Update error:", e));
         } else {
-          fetch("http://localhost:5000/add", {
+          fetch(`${baseURL}/add`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ task, content }),
@@ -68,13 +69,13 @@ function Home() {
         else if (!task) alert("Please Write Task");
         else if (!content) alert("Please Write Content");
       }
-    }else{
-      alert("Login First")
+    } else {
+      alert("Login First");
     }
-  }
+  };
 
   const deleteTask = (id) => {
-    fetch(`http://localhost:5000/delete/${id}`, {
+    fetch(`${baseURL}/delete/${id}`, {
       method: "DELETE",
     })
       .then(() => getTasks())
@@ -122,50 +123,49 @@ function Home() {
       </main>
 
       <div className="view">
-  {isLoggedIn ? (
-    taskList.length > 0 ? (
-      taskList.map((item, i) => (
-        <div className="dats" key={item._id}>
-          <div className="top-row">
-            <section className="task-index">{i + 1}</section>
-            <div className="action-buttons">
-              <button onClick={() => editTask(item)}>
-                <img src={edit} alt="Edit" />
-              </button>
-              <button className="bt" onClick={() => deleteTask(item._id)}>
-                <img className="size" src={del} alt="Delete" />
-              </button>
-            </div>
+        {isLoggedIn ? (
+          taskList.length > 0 ? (
+            taskList.map((item, i) => (
+              <div className="dats" key={item._id}>
+                <div className="top-row">
+                  <section className="task-index">{i + 1}</section>
+                  <div className="action-buttons">
+                    <button onClick={() => editTask(item)}>
+                      <img src={edit} alt="Edit" />
+                    </button>
+                    <button className="bt" onClick={() => deleteTask(item._id)}>
+                      <img className="size" src={del} alt="Delete" />
+                    </button>
+                  </div>
+                </div>
+                <section className="task-title">{item.task}</section>
+                <section className="task-content">
+                  {item.content.length > 212
+                    ? item.content.slice(0, 212) + "..."
+                    : item.content}
+                </section>
+              </div>
+            ))
+          ) : (
+            <h2>No Tasks Found</h2>
+          )
+        ) : (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "50px",
+              width: "97.5vw",
+              marginTop: "80px",
+            }}
+          >
+            <h2 style={{ fontSize: "35px", color: "red", textAlign: "center" }}>
+              Please login first
+            </h2>
           </div>
-          <section className="task-title">{item.task}</section>
-          <section className="task-content">
-            {item.content.length > 212
-              ? item.content.slice(0, 212) + "..."
-              : item.content}
-          </section>
-        </div>
-      ))
-    ) : (
-      <h2>No Tasks Found</h2>
-    )
-  ) : (
-<div style={{ 
-  display: "flex", 
-  justifyContent: "center", 
-  alignItems: "center", 
-  height: "50px", 
-  width: "97.5vw", 
- marginTop:"80px"   
- }}>
-  <h2 style={{ fontSize: "35px", color: "red", textAlign: "center" }}>
-    Please login first
-  </h2>
-</div>
-
-  )}
-</div>
-
-
+        )}
+      </div>
     </>
   );
 }
