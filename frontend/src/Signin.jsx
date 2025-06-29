@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import siginlogo from "./Images/siginlogo.png";
 import "./index.css";
 
-function Sigin() {
+function Signin() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -65,9 +65,9 @@ function Sigin() {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit" className="l2">Sign-In</button>
+        <button type="submit" className="l2">Sign Up</button>
         <div className="sg2">
-          <section className="create">Already Created -</section>
+          <section className="create">Already have an account?</section>
           <section className="si">
             <Link to="/login">Login</Link>
           </section>
@@ -77,4 +77,4 @@ function Sigin() {
   );
 }
 
-export default Sigin;
+export default Signin;

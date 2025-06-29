@@ -14,83 +14,62 @@ function Home() {
 
   const baseURL = "https://to-do-website-brg2.onrender.com";
 
-  const getTasks = () => {
-    fetch(`${baseURL}/ToDo`)
-      .then((res) => res.json())
-      .then((data) => setTaskList(data))
-      .catch((e) => console.error("Error fetching tasks:", e));
-  };
-
   useEffect(() => {
-    getTasks();
+    fetchTasks();
   }, []);
 
   useEffect(() => {
     const checkLoginStatus = () => {
       setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
     };
-
     checkLoginStatus();
     window.addEventListener("storage", checkLoginStatus);
-
     return () => window.removeEventListener("storage", checkLoginStatus);
   }, []);
 
+  const fetchTasks = () => {
+    fetch(`${baseURL}/ToDo`)
+      .then((res) => res.json())
+      .then((data) => setTaskList(data))
+      .catch((e) => console.error("Error fetching tasks:", e));
+  };
+
   const handleTask = () => {
-    if (isLoggedIn) {
-      if (task && content) {
-        if (isEditMode) {
-          fetch(`${baseURL}/update/${editId}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ task, content }),
-          })
-            .then(() => {
-              setTask("");
-              setContent("");
-              setIsEditMode(false);
-              setEditId(null);
-              getTasks();
-            })
-            .catch((e) => console.log("Update error:", e));
-        } else {
-          fetch(`${baseURL}/add`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ task, content }),
-          }).then(() => {
-            setTask("");
-            setContent("");
-            getTasks();
-          });
-        }
-      } else {
-        if (!task && !content) alert("Write Something...");
-        else if (!task) alert("Please Write Task");
-        else if (!content) alert("Please Write Content");
-      }
-    } else {
-      alert("Login First");
-    }
+    if (!isLoggedIn) return alert("Login First");
+
+    if (!task && !content) return alert("Write Something...");
+    if (!task) return alert("Please Write Task");
+    if (!content) return alert("Please Write Content");
+
+    const method = isEditMode ? "PUT" : "POST";
+    const url = isEditMode ? `${baseURL}/update/${editId}` : `${baseURL}/add`;
+
+    fetch(url, {
+      method,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ task, content }),
+    })
+      .then(() => {
+        setTask("");
+        setContent("");
+        setIsEditMode(false);
+        setEditId(null);
+        fetchTasks();
+      })
+      .catch((e) => console.error("Error saving task:", e));
   };
 
   const deleteTask = (id) => {
-    fetch(`${baseURL}/delete/${id}`, {
-      method: "DELETE",
-    })
-      .then(() => getTasks())
-      .catch((e) => console.log(e));
+    fetch(`${baseURL}/delete/${id}`, { method: "DELETE" })
+      .then(() => fetchTasks())
+      .catch((e) => console.error("Error deleting task:", e));
   };
 
   const editTask = (item) => {
     setTask(item.task);
     setContent(item.content);
     setIsEditMode(true);
-    setEditId(item._id || item.id);
-    showInput();
-  };
-
-  const showInput = () => {
+    setEditId(item._id);
     document.getElementById("textarea").style.display = "block";
     document.getElementById("btn2").style.display = "block";
   };
@@ -98,16 +77,18 @@ function Home() {
   return (
     <>
       <Header isLoggedIn={isLoggedIn} />
-
       <main>
         <div className="imp">
           <input
             className="inp1"
             type="text"
             placeholder="Task..."
-            onClick={showInput}
-            onChange={(e) => setTask(e.target.value)}
             value={task}
+            onClick={() => {
+              document.getElementById("textarea").style.display = "block";
+              document.getElementById("btn2").style.display = "block";
+            }}
+            onChange={(e) => setTask(e.target.value)}
           />
           <textarea
             className="inp2"
@@ -115,7 +96,7 @@ function Home() {
             placeholder="Write your task here..."
             value={content}
             onChange={(e) => setContent(e.target.value)}
-          ></textarea>
+          />
           <button className="btn2" id="btn2" onClick={handleTask}>
             {isEditMode ? "Update" : "Add"}
           </button>
@@ -150,16 +131,7 @@ function Home() {
             <h2>No Tasks Found</h2>
           )
         ) : (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "50px",
-              width: "97.5vw",
-              marginTop: "80px",
-            }}
-          >
+          <div className="login-warning">
             <h2 style={{ fontSize: "35px", color: "red", textAlign: "center" }}>
               Please login first
             </h2>

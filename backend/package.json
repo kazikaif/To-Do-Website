@@ -1,5 +1,5 @@
 {
-  "name": "backend",
+  "name": "to-do-backend",
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
@@ -7,7 +7,8 @@
   },
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.21.2",
-    "mongoose": "^7.8.7"
+    "dotenv": "^16.6.1",
+    "express": "^4.18.2",
+    "mongoose": "^7.6.1"
   }
 }

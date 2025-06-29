@@ -1,105 +1,117 @@
+require("dotenv").config();
+
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 
 const app = express();
-app.use(cors());
+app.use(cors({ origin: "*" }));
 app.use(express.json());
 
-// ✅ Replace <password> and <dbname> with your actual credentials
-mongoose
-  .connect("mongodb+srv://Deny:Kazi@2004@cluster0.k6ilpqj.mongodb.net/ToDo?retryWrites=true&w=majority", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("MongoDB Connected"))
-  .catch((e) => console.error("MongoDB Connection Error:", e));
+// ✅ Connect to MongoDB using environment variable
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log("✅ MongoDB Atlas Connected"))
+.catch((e) => console.error("❌ MongoDB Connection Error:", e));
 
-// ✅ Task Schema
+// 🧱 SCHEMAS
 const TaskSchema = new mongoose.Schema({
   task: { type: String, required: true },
   content: { type: String, required: true },
 });
 const Task = mongoose.model("Task", TaskSchema);
 
-// ✅ User Schema
 const UserSchema = new mongoose.Schema({
-  username: { type: String, required: true },
-  email: { type: String, required: true },
+  username: { type: String, required: true, unique: true },
+  email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
 });
 const User = mongoose.model("User", UserSchema);
 
-// ✅ Create Task
-app.post("/add", (req, res) => {
-  const { task, content } = req.body;
-  const newTask = new Task({ task, content });
+// 🧩 ROUTES
 
-  newTask
-    .save()
-    .then(() => res.json("Task saved"))
-    .catch((e) => res.status(500).json({ error: "Failed to save task", details: e }));
+// ➕ Add Task
+app.post("/add", async (req, res) => {
+  try {
+    const { task, content } = req.body;
+    await new Task({ task, content }).save();
+    res.json("Task saved");
+  } catch (e) {
+    res.status(400).json({ message: "Task save failed", error: e });
+  }
 });
 
-// ✅ Get All Tasks
-app.get("/ToDo", (req, res) => {
-  Task.find()
-    .then((data) => res.json(data))
-    .catch((e) => res.status(500).json({ error: "Failed to fetch tasks", details: e }));
+// 📥 Get All Tasks
+app.get("/ToDo", async (req, res) => {
+  try {
+    const tasks = await Task.find();
+    res.json(tasks);
+  } catch (e) {
+    res.status(500).json({ message: "Failed to fetch tasks", error: e });
+  }
 });
 
-// ✅ Delete Task
-app.delete("/delete/:id", (req, res) => {
-  Task.findByIdAndDelete(req.params.id)
-    .then(() => res.json("Task Deleted"))
-    .catch((e) => res.status(500).json({ error: "Failed to delete task", details: e }));
+// ❌ Delete Task
+app.delete("/delete/:id", async (req, res) => {
+  try {
+    await Task.findByIdAndDelete(req.params.id);
+    res.json("Task Deleted");
+  } catch (e) {
+    res.status(400).json({ message: "Delete failed", error: e });
+  }
 });
 
-// ✅ Update Task
-app.put("/update/:id", (req, res) => {
-  const { task, content } = req.body;
-  Task.findByIdAndUpdate(req.params.id, { task, content })
-    .then(() => res.json("Task Updated"))
-    .catch((e) => res.status(500).json({ error: "Failed to update task", details: e }));
+// ✏️ Update Task
+app.put("/update/:id", async (req, res) => {
+  try {
+    const { task, content } = req.body;
+    await Task.findByIdAndUpdate(req.params.id, { task, content });
+    res.json("Task Updated");
+  } catch (e) {
+    res.status(400).json({ message: "Update failed", error: e });
+  }
 });
 
-// ✅ Register User
-app.post("/register", (req, res) => {
-  const { username, email, password } = req.body;
+// 🔐 Register User
+app.post("/register", async (req, res) => {
+  try {
+    const { username, email, password } = req.body;
+    const existingUser = await User.findOne({ $or: [{ username }, { email }] });
 
-  const newUser = new User({ username, email, password });
+    if (existingUser) {
+      return res.status(400).json({ message: "User already exists" });
+    }
 
-  newUser
-    .save()
-    .then(() => res.json({ message: "User created" }))
-    .catch((e) => res.status(500).json({ message: "Failed to register user", error: e }));
+    await new User({ username, email, password }).save();
+    res.json({ message: "User created" });
+  } catch (e) {
+    res.status(400).json({ message: "Registration failed", error: e });
+  }
 });
 
-// ✅ Login User
-app.post("/login", (req, res) => {
-  const { username, password } = req.body;
+// 🔑 Login User
+app.post("/login", async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    const user = await User.findOne({ username });
 
-  User.findOne({ username })
-    .then((user) => {
-      if (!user) return res.json({ message: "User not found" });
+    if (!user) return res.json({ message: "User not found" });
+    if (user.password !== password) return res.json({ message: "Invalid password" });
 
-      if (user.password === password) {
-        res.json({
-          message: "Login successful",
-          username: user.username,
-          email: user.email,
-        });
-      } else {
-        res.json({ message: "Invalid password" });
-      }
-    })
-    .catch((e) => {
-      res.status(500).json({ message: "Server error", error: e });
+    res.json({
+      message: "Login successful",
+      username: user.username,
+      email: user.email,
     });
+  } catch (e) {
+    res.status(500).json({ message: "Login failed", error: e });
+  }
 });
 
-// ✅ Run Server
+// 🚀 Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });

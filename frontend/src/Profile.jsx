@@ -23,13 +23,13 @@ function Profile() {
     setPassword(localStorage.getItem("userPassword") || "");
   }, [navigate]);
 
-  const Logout = () => {
+  const handleLogout = () => {
     localStorage.clear();
     navigate("/");
     window.location.reload();
   };
 
-  const Home = () => {
+  const goToHome = () => {
     navigate("/");
   };
 
@@ -69,8 +69,8 @@ function Profile() {
           </div>
 
           <div className="profile-buttons">
-            <button onClick={Home}>🏠 Home</button>
-            <button onClick={Logout}>🚪 Logout</button>
+            <button onClick={goToHome}>🏠 Home</button>
+            <button onClick={handleLogout}>🚪 Logout</button>
           </div>
         </div>
       </div>

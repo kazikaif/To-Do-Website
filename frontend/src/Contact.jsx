@@ -16,46 +16,53 @@ function Contact() {
   return (
     <>
       <Header isLoggedIn={isLoggedIn} />
-      
+
       <section className="contact">Contact</section>
 
       <div className="cn">
         <div className="Contact" id="contact">
           <div className="about1 about2">
-            <span className="ph">Phone:</span>
-            <span className="no">7984-2929-07</span>
-            <br />
-            <span className="ph">Email:</span>
-            <span className="no">denycoding2004@gmail.com</span>
+            <p>
+              <span className="ph">Phone:</span>{" "}
+              <span className="no">7984-2929-07</span>
+            </p>
+            <p>
+              <span className="ph">Email:</span>{" "}
+              <span className="no">denycoding2004@gmail.com</span>
+            </p>
 
             <div className="link">
               <a
                 href="https://www.linkedin.com/in/kazi-mohammad-kaif-57b11423b/"
                 target="_blank"
                 rel="noreferrer"
+                className="socialLink"
               >
-                <img className="linkedin" src={linkedin} alt="LinkedIn" />
+                <img src={linkedin} alt="LinkedIn Profile" />
               </a>
               <a
                 href="https://github.com/kazikaif"
                 target="_blank"
                 rel="noreferrer"
+                className="socialLink"
               >
-                <img className="linkedin" src={github} alt="GitHub" />
+                <img src={github} alt="GitHub Profile" />
               </a>
               <a
                 href="https://vercel.com/kazi-mohammad-kaifs-projects"
                 target="_blank"
                 rel="noreferrer"
+                className="socialLink"
               >
-                <img className="linkedin" src={vercel} alt="Vercel" />
+                <img src={vercel} alt="Vercel Projects" />
               </a>
               <a
                 href="https://www.instagram.com/_.kaifffff_29/"
                 target="_blank"
                 rel="noreferrer"
+                className="socialLink"
               >
-                <img className="linkedin" src={insta} alt="Instagram" />
+                <img src={insta} alt="Instagram Profile" />
               </a>
             </div>
           </div>

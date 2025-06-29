@@ -8,15 +8,18 @@ function Header({ isLoggedIn }) {
       <div className="title">
         <section>To-Do</section>
       </div>
+
       <div className="nav">
         <nav className="navbar">
-         <NavLink
-  to="/"
-  end
-  className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
->
-  Home
-</NavLink>
+          <NavLink
+            to="/"
+            end
+            className={({ isActive }) =>
+              isActive ? "nav-item active" : "nav-item"
+            }
+          >
+            Home
+          </NavLink>
 
           <NavLink
             to="/about"
@@ -26,6 +29,7 @@ function Header({ isLoggedIn }) {
           >
             About
           </NavLink>
+
           <NavLink
             to="/contact"
             className={({ isActive }) =>
@@ -35,13 +39,14 @@ function Header({ isLoggedIn }) {
             Contact
           </NavLink>
         </nav>
+
         {isLoggedIn ? (
           <NavLink to="/profile">
             <img className="img" src={profile} alt="Profile" />
           </NavLink>
         ) : (
           <NavLink to="/login">
-            <button>Login</button>
+            <button className="login-btn">Login</button>
           </NavLink>
         )}
       </div>
