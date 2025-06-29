@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -6,8 +7,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// MongoDB Connection
 mongoose
-  .connect("mongodb://localhost:27017/ToDo", {
+  .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -37,21 +39,27 @@ app.post("/add", (req, res) => {
   newTask
     .save()
     .then(() => res.json({ message: "Task saved" }))
-    .catch((e) => res.status(500).json({ error: "Failed to save task", details: e }));
+    .catch((e) =>
+      res.status(500).json({ error: "Failed to save task", details: e })
+    );
 });
 
 // Get All Tasks
 app.get("/ToDo", (req, res) => {
   Task.find()
     .then((data) => res.json(data))
-    .catch((e) => res.status(500).json({ error: "Failed to fetch tasks", details: e }));
+    .catch((e) =>
+      res.status(500).json({ error: "Failed to fetch tasks", details: e })
+    );
 });
 
 // Delete Task
 app.delete("/delete/:id", (req, res) => {
   Task.findByIdAndDelete(req.params.id)
     .then(() => res.json({ message: "Task deleted" }))
-    .catch((e) => res.status(500).json({ error: "Failed to delete task", details: e }));
+    .catch((e) =>
+      res.status(500).json({ error: "Failed to delete task", details: e })
+    );
 });
 
 // Update Task
@@ -59,7 +67,9 @@ app.put("/update/:id", (req, res) => {
   const { task, content } = req.body;
   Task.findByIdAndUpdate(req.params.id, { task, content })
     .then(() => res.json({ message: "Task updated" }))
-    .catch((e) => res.status(500).json({ error: "Failed to update task", details: e }));
+    .catch((e) =>
+      res.status(500).json({ error: "Failed to update task", details: e })
+    );
 });
 
 // Register User
@@ -71,7 +81,9 @@ app.post("/register", (req, res) => {
   newUser
     .save()
     .then(() => res.json({ message: "User created" }))
-    .catch((e) => res.status(500).json({ error: "Registration failed", details: e }));
+    .catch((e) =>
+      res.status(500).json({ error: "Registration failed", details: e })
+    );
 });
 
 // Login User
@@ -99,6 +111,8 @@ app.post("/login", (req, res) => {
     });
 });
 
-app.listen(5000, () => {
-  console.log("Server running on port 5000");
+// Start Server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
