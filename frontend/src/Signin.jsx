@@ -12,17 +12,12 @@ function Signin() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    fetch("https://to-do-website-brg2.onrender.com/register", {
+    fetch("http://localhost:5000/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, email, password }),
     })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Registration failed");
-        }
-        return res.json();
-      })
+      .then((res) => res.json())
       .then((data) => {
         if (data.message === "User created") {
           alert("Registered Successfully");

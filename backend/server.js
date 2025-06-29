@@ -1,117 +1,104 @@
-require("dotenv").config();
-
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 
 const app = express();
-app.use(cors({ origin: "*" }));
+app.use(cors());
 app.use(express.json());
 
-// ✅ Connect to MongoDB using environment variable
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log("✅ MongoDB Atlas Connected"))
-.catch((e) => console.error("❌ MongoDB Connection Error:", e));
+mongoose
+  .connect("mongodb://localhost:27017/ToDo", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("MongoDB Connected"))
+  .catch((e) => console.log("MongoDB Connection Error:", e));
 
-// 🧱 SCHEMAS
+// Task Schema
 const TaskSchema = new mongoose.Schema({
   task: { type: String, required: true },
   content: { type: String, required: true },
 });
 const Task = mongoose.model("Task", TaskSchema);
 
+// User Schema
 const UserSchema = new mongoose.Schema({
-  username: { type: String, required: true, unique: true },
-  email: { type: String, required: true, unique: true },
+  username: { type: String, required: true },
+  email: { type: String, required: true },
   password: { type: String, required: true },
 });
 const User = mongoose.model("User", UserSchema);
 
-// 🧩 ROUTES
+// Add Task
+app.post("/add", (req, res) => {
+  const { task, content } = req.body;
+  const newTask = new Task({ task, content });
 
-// ➕ Add Task
-app.post("/add", async (req, res) => {
-  try {
-    const { task, content } = req.body;
-    await new Task({ task, content }).save();
-    res.json("Task saved");
-  } catch (e) {
-    res.status(400).json({ message: "Task save failed", error: e });
-  }
+  newTask
+    .save()
+    .then(() => res.json({ message: "Task saved" }))
+    .catch((e) => res.status(500).json({ error: "Failed to save task", details: e }));
 });
 
-// 📥 Get All Tasks
-app.get("/ToDo", async (req, res) => {
-  try {
-    const tasks = await Task.find();
-    res.json(tasks);
-  } catch (e) {
-    res.status(500).json({ message: "Failed to fetch tasks", error: e });
-  }
+// Get All Tasks
+app.get("/ToDo", (req, res) => {
+  Task.find()
+    .then((data) => res.json(data))
+    .catch((e) => res.status(500).json({ error: "Failed to fetch tasks", details: e }));
 });
 
-// ❌ Delete Task
-app.delete("/delete/:id", async (req, res) => {
-  try {
-    await Task.findByIdAndDelete(req.params.id);
-    res.json("Task Deleted");
-  } catch (e) {
-    res.status(400).json({ message: "Delete failed", error: e });
-  }
+// Delete Task
+app.delete("/delete/:id", (req, res) => {
+  Task.findByIdAndDelete(req.params.id)
+    .then(() => res.json({ message: "Task deleted" }))
+    .catch((e) => res.status(500).json({ error: "Failed to delete task", details: e }));
 });
 
-// ✏️ Update Task
-app.put("/update/:id", async (req, res) => {
-  try {
-    const { task, content } = req.body;
-    await Task.findByIdAndUpdate(req.params.id, { task, content });
-    res.json("Task Updated");
-  } catch (e) {
-    res.status(400).json({ message: "Update failed", error: e });
-  }
+// Update Task
+app.put("/update/:id", (req, res) => {
+  const { task, content } = req.body;
+  Task.findByIdAndUpdate(req.params.id, { task, content })
+    .then(() => res.json({ message: "Task updated" }))
+    .catch((e) => res.status(500).json({ error: "Failed to update task", details: e }));
 });
 
-// 🔐 Register User
-app.post("/register", async (req, res) => {
-  try {
-    const { username, email, password } = req.body;
-    const existingUser = await User.findOne({ $or: [{ username }, { email }] });
+// Register User
+app.post("/register", (req, res) => {
+  const { username, email, password } = req.body;
 
-    if (existingUser) {
-      return res.status(400).json({ message: "User already exists" });
-    }
+  const newUser = new User({ username, email, password });
 
-    await new User({ username, email, password }).save();
-    res.json({ message: "User created" });
-  } catch (e) {
-    res.status(400).json({ message: "Registration failed", error: e });
-  }
+  newUser
+    .save()
+    .then(() => res.json({ message: "User created" }))
+    .catch((e) => res.status(500).json({ error: "Registration failed", details: e }));
 });
 
-// 🔑 Login User
-app.post("/login", async (req, res) => {
-  try {
-    const { username, password } = req.body;
-    const user = await User.findOne({ username });
+// Login User
+app.post("/login", (req, res) => {
+  const { username, password } = req.body;
 
-    if (!user) return res.json({ message: "User not found" });
-    if (user.password !== password) return res.json({ message: "Invalid password" });
-
-    res.json({
-      message: "Login successful",
-      username: user.username,
-      email: user.email,
+  User.findOne({ username })
+    .then((user) => {
+      if (user) {
+        if (user.password === password) {
+          res.json({
+            message: "Login successful",
+            username: user.username,
+            email: user.email,
+          });
+        } else {
+          res.json({ message: "Invalid password" });
+        }
+      } else {
+        res.json({ message: "User not found" });
+      }
+    })
+    .catch((e) => {
+      res.status(500).json({ message: "Server error", error: e });
     });
-  } catch (e) {
-    res.status(500).json({ message: "Login failed", error: e });
-  }
 });
 
-// 🚀 Start Server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+app.listen(5000, () => {
+  console.log("Server running on port 5000");
 });

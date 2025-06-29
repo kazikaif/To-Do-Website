@@ -12,7 +12,7 @@ function Home() {
   const [editId, setEditId] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const baseURL = "https://to-do-website-brg2.onrender.com";
+const baseURL = "http://localhost:5000"; // ✅ Correct
 
   useEffect(() => {
     fetchTasks();
