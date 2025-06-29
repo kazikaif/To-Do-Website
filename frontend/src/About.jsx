@@ -13,7 +13,7 @@ function About() {
     <>
       <Header isLoggedIn={isLoggedIn} />
 
-      <section className="about" id="about">
+      <section className="about">
         <h2 className="ab">About Me</h2>
         <div className="about1">
           <p className="info">

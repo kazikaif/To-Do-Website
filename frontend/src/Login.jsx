@@ -1,5 +1,5 @@
 import "./index.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import loginlogo from "./Images/Login.png";
 import { useState } from "react";
 
@@ -11,7 +11,7 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-fetch("http://localhost:5000/login", {
+    fetch("http://localhost:5000/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),
@@ -23,28 +23,21 @@ fetch("http://localhost:5000/login", {
           localStorage.setItem("userName", result.username);
           localStorage.setItem("userEmail", result.email);
           localStorage.setItem("userPassword", password);
-
           alert("Login Successfully");
           navigate("/");
         } else {
           alert(result.message);
         }
       })
-      .catch((err) => {
-        console.error("Login error:", err);
-        alert("Something went wrong");
-      });
+      .catch(() => alert("Something went wrong"));
   };
 
   return (
     <div className="lg">
       <form className="form" onSubmit={handleSubmit}>
-        <div>
-          <img className="loginlogo" src={loginlogo} alt="Login Logo" />
-        </div>
+        <img className="loginlogo" src={loginlogo} alt="Login Logo" />
         <input
           type="text"
-          name="username"
           placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
@@ -52,22 +45,19 @@ fetch("http://localhost:5000/login", {
         />
         <input
           type="password"
-          name="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
         <div className="linkf">
-          <a href="#">Forgot Password?</a>
+          <span style={{ color: "beige" }}>Forgot Password?</span>
         </div>
-        <button className="l" type="submit">
-          Login
-        </button>
+        <button className="l" type="submit">Login</button>
         <div className="sg">
           <section className="create">Create an Account -</section>
           <section className="si">
-            <a href="/signin">Sign in</a>
+            <Link to="/signin">Sign in</Link>
           </section>
         </div>
       </form>

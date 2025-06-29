@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import siginlogo from "./Images/siginlogo.png";
 import "./index.css";
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import siginlogo from "./Images/siginlogo.png";
 
 function Signin() {
   const [username, setUsername] = useState("");
@@ -26,19 +26,14 @@ function Signin() {
           alert(data.message || "Something went wrong");
         }
       })
-      .catch((err) => {
-        console.error("Registration error:", err);
-        alert("Registration failed");
-      });
+      .catch(() => alert("Registration failed"));
   };
 
   return (
     <div className="lg">
       <form className="form2" onSubmit={handleSubmit}>
         <div className="head">User Registration</div>
-        <section>
-          <img className="siginlogo" src={siginlogo} alt="logo" />
-        </section>
+        <img className="siginlogo" src={siginlogo} alt="logo" />
         <input
           type="text"
           placeholder="Username"

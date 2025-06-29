@@ -20,8 +20,8 @@ function Contact() {
       <section className="contact">Contact</section>
 
       <div className="cn">
-        <div className="Contact" id="contact">
-          <div className="about1 about2">
+        <div className="Contact">
+          <div className="about1">
             <p>
               <span className="ph">Phone:</span>{" "}
               <span className="no">7984-2929-07</span>
@@ -38,7 +38,7 @@ function Contact() {
                 rel="noreferrer"
                 className="socialLink"
               >
-                <img src={linkedin} alt="LinkedIn Profile" />
+                <img src={linkedin} alt="LinkedIn" />
               </a>
               <a
                 href="https://github.com/kazikaif"
@@ -46,7 +46,7 @@ function Contact() {
                 rel="noreferrer"
                 className="socialLink"
               >
-                <img src={github} alt="GitHub Profile" />
+                <img src={github} alt="GitHub" />
               </a>
               <a
                 href="https://vercel.com/kazi-mohammad-kaifs-projects"
@@ -54,7 +54,7 @@ function Contact() {
                 rel="noreferrer"
                 className="socialLink"
               >
-                <img src={vercel} alt="Vercel Projects" />
+                <img src={vercel} alt="Vercel" />
               </a>
               <a
                 href="https://www.instagram.com/_.kaifffff_29/"
@@ -62,7 +62,7 @@ function Contact() {
                 rel="noreferrer"
                 className="socialLink"
               >
-                <img src={insta} alt="Instagram Profile" />
+                <img src={insta} alt="Instagram" />
               </a>
             </div>
           </div>
