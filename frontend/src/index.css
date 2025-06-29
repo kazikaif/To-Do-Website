@@ -356,6 +356,28 @@ main {
   cursor: pointer;
   transition: transform 0.2s ease, background-color 0.3s ease;
 }
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-field {
+  width: 100%;
+  padding-right: 40px; /* Space for eye icon */
+  box-sizing: border-box;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 18px;
+}
+
 .profile-buttons button:hover {
   transform: scale(1.05);
   background-color: green;
@@ -377,7 +399,7 @@ main {
   max-width: 800px;
   margin: 0 auto;
   margin-top: 50px;
-  padding: 1rem;
+  padding: 3rem;
   background-color: #5e503f;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -388,8 +410,7 @@ main {
   color: beige;
 }
 
-/* Contact Page */
-.contact {
+ .contact {
   margin-top: 50px;
   font-size: 50px;
   font-weight: bold;

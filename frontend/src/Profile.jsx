@@ -12,11 +12,7 @@ function Profile() {
 
   useEffect(() => {
     const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-    if (!isLoggedIn) {
-      alert("Please login first");
-      navigate("/login");
-      return;
-    }
+     
 
     setUsername(localStorage.getItem("userName") || "");
     setEmail(localStorage.getItem("userEmail") || "");
@@ -39,8 +35,7 @@ function Profile() {
 
   return (
     <>
-      <Header isLoggedIn={true} />
-      <div className="pro">
+       <div className="pro">
         <div className="pp">
           <section className="profile-title">👤 Profile</section>
           <div className="profile-inputs">

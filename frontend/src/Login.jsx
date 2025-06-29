@@ -42,6 +42,7 @@ function Login() {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
+          autoFocus
         />
         <input
           type="password"
