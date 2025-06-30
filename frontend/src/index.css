@@ -460,3 +460,166 @@ main {
 .img:hover {
   transform: scale(1.1);
 }
+/* ========== RESPONSIVE DESIGN ========== */
+
+/* Tablet: ≤ 1024px */
+@media (max-width: 1024px) {
+  .view {
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
+  }
+
+  .nav {
+    gap: 25px;
+    margin-right: 50px;
+  }
+
+  .title {
+    font-size: 40px;
+    margin-left: 40px;
+  }
+
+  .form, .form2, .pp {
+    width: 90%;
+    max-width: 350px;
+  }
+
+  .inp1, .inp2 {
+    width: 100%;
+  }
+
+  .btn2 {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+/* Mobile: ≤ 768px */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    height: auto;
+    padding: 10px;
+  }
+
+  .title {
+    margin-left: 0;
+    font-size: 36px;
+  }
+
+  .nav {
+    flex-direction: column;
+    gap: 10px;
+    margin: 10px 0;
+  }
+
+  .view {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .dats {
+    width: 90%;
+    margin: auto;
+    height: auto;
+    padding: 15px;
+  }
+
+  .task-content {
+    height: auto;
+    width: 100%;
+    font-size: 16px;
+  }
+
+  .form input,
+  .form2 input {
+    width: 100%;
+  }
+
+  .inp1 {
+    width: 100%;
+    font-size: 18px;
+  }
+
+  .inp2 {
+    width: 100%;
+    height: 80px;
+    font-size: 16px;
+  }
+
+  .btn2 {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 10px;
+  }
+
+  .loginlogo,
+  .siginlogo {
+    width: 150px;
+    height: auto;
+  }
+
+  .head {
+    font-size: 22px;
+  }
+
+  .ab,
+  .contact {
+    font-size: 36px;
+  }
+
+  .about1 {
+    padding: 2rem;
+  }
+}
+
+/* Extra Small Devices: ≤ 480px */
+@media (max-width: 480px) {
+  .title {
+    font-size: 28px;
+    text-align: center;
+  }
+
+  .nav-item {
+    font-size: 1rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .view {
+    padding: 10px;
+    gap: 20px;
+  }
+
+  .dats {
+    padding: 10px;
+  }
+
+  .task-title {
+    font-size: 20px;
+  }
+
+  .task-content {
+    font-size: 14px;
+  }
+
+  .form, .form2 {
+    padding: 20px;
+  }
+
+  .l, .l2 {
+    width: 100%;
+  }
+
+  .profile-buttons {
+    flex-direction: column;
+  }
+
+  .about1 {
+    padding: 1rem;
+  }
+
+  .socialLink img {
+    width: 30px;
+    height: 30px;
+  }
+}

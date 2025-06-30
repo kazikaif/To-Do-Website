@@ -13,19 +13,17 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("MongoDB Connected"))
-  .catch((e) => console.log("MongoDB Connection Error:", e));
+  .then(() => console.log("✅ MongoDB Connected"))
+  .catch((e) => console.log("❌ MongoDB Connection Error:", e));
 
-// Task Schema
+// Schemas
 const TaskSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, required: true },
   task: { type: String, required: true },
   content: { type: String, required: true },
 });
-
 const Task = mongoose.model("Task", TaskSchema);
 
-// User Schema
 const UserSchema = new mongoose.Schema({
   username: { type: String, required: true },
   email: { type: String, required: true },
@@ -35,35 +33,35 @@ const User = mongoose.model("User", UserSchema);
 
 // Add Task
 app.post("/add", (req, res) => {
-const { task, content, userId } = req.body;
-const newTask = new Task({ userId, task, content });
-
+  const { task, content, userId } = req.body;
+  const newTask = new Task({ userId, task, content });
 
   newTask
     .save()
     .then(() => res.json({ message: "Task saved" }))
-    .catch((e) =>
-      res.status(500).json({ error: "Failed to save task", details: e })
-    );
+    .catch((e) => res.status(500).json({ error: "Failed to save task", details: e }));
 });
 
-// Get All Tasks
+// Get All Tasks for a User
 app.get("/ToDo", (req, res) => {
-const { userId } = req.query;
-Task.find({ userId })
+  const { userId } = req.query;
+
+  if (!userId) {
+    return res.status(400).json({ error: "Missing userId in query" });
+  }
+
+  console.log("📥 Fetching tasks for userId:", userId);
+
+  Task.find({ userId })
     .then((data) => res.json(data))
-    .catch((e) =>
-      res.status(500).json({ error: "Failed to fetch tasks", details: e })
-    );
+    .catch((e) => res.status(500).json({ error: "Failed to fetch tasks", details: e }));
 });
 
 // Delete Task
 app.delete("/delete/:id", (req, res) => {
   Task.findByIdAndDelete(req.params.id)
     .then(() => res.json({ message: "Task deleted" }))
-    .catch((e) =>
-      res.status(500).json({ error: "Failed to delete task", details: e })
-    );
+    .catch((e) => res.status(500).json({ error: "Failed to delete task", details: e }));
 });
 
 // Update Task
@@ -71,23 +69,23 @@ app.put("/update/:id", (req, res) => {
   const { task, content } = req.body;
   Task.findByIdAndUpdate(req.params.id, { task, content })
     .then(() => res.json({ message: "Task updated" }))
-    .catch((e) =>
-      res.status(500).json({ error: "Failed to update task", details: e })
-    );
+    .catch((e) => res.status(500).json({ error: "Failed to update task", details: e }));
 });
 
 // Register User
 app.post("/register", (req, res) => {
   const { username, email, password } = req.body;
 
+  if (password.length < 4) {
+    return res.status(400).json({ error: "Password must be at least 4 characters" });
+  }
+
   const newUser = new User({ username, email, password });
 
   newUser
     .save()
     .then(() => res.json({ message: "User created" }))
-    .catch((e) =>
-      res.status(500).json({ error: "Registration failed", details: e })
-    );
+    .catch((e) => res.status(500).json({ error: "Registration failed", details: e }));
 });
 
 // Login User
@@ -98,13 +96,12 @@ app.post("/login", (req, res) => {
     .then((user) => {
       if (user) {
         if (user.password === password) {
-         res.json({
-  message: "Login successful",
-  username: user.username,
-  email: user.email,
-  _id: user._id, // <-- important
-});
-
+          res.json({
+            message: "Login successful",
+            username: user.username,
+            email: user.email,
+            _id: user._id,
+          });
         } else {
           res.json({ message: "Invalid password" });
         }
@@ -112,13 +109,11 @@ app.post("/login", (req, res) => {
         res.json({ message: "User not found" });
       }
     })
-    .catch((e) => {
-      res.status(500).json({ message: "Server error", error: e });
-    });
+    .catch((e) => res.status(500).json({ message: "Server error", error: e }));
 });
 
 // Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });

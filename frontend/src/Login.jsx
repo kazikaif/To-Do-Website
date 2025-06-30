@@ -11,31 +11,32 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-   fetch(`${import.meta.env.VITE_API_URL}/login`, {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ username, password }),
-})
-
+    fetch(`${import.meta.env.VITE_API_URL}/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    })
       .then((res) => res.json())
-    .then((result) => {
-  if (result.message === "Login successful") {
-    localStorage.setItem("isLoggedIn", "true");
-    localStorage.setItem("userName", result.username);
-    localStorage.setItem("userEmail", result.email);
-    localStorage.setItem("userPassword", password);
+      .then((result) => {
+        if (result.message === "Login successful") {
+          localStorage.setItem("isLoggedIn", "true");
+          localStorage.setItem("userName", result.username);
+          localStorage.setItem("userEmail", result.email);
+          localStorage.setItem("userPassword", password);
 
-    // ✅ Store user ID for task filtering
-   localStorage.setItem("userId", result._id);
- 
+          if (result._id) {
+            localStorage.setItem("userId", result._id);
+          } else {
+            alert("User ID not received from server");
+            return;
+          }
 
-    alert("Login Successfully");
-    navigate("/");
-  } else {
-    alert(result.message);
-  }
-})
-
+          alert("Login Successfully");
+          navigate("/");
+        } else {
+          alert(result.message);
+        }
+      })
       .catch(() => alert("Something went wrong"));
   };
 

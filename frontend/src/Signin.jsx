@@ -12,10 +12,18 @@ function Signin() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-fetch(`${import.meta.env.VITE_API_URL}/register`, { 
+    const trimmedUsername = username.trim();
+    const trimmedEmail = email.trim();
+    const trimmedPassword = password.trim();
+
+    fetch(`${import.meta.env.VITE_API_URL}/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, email, password }),
+      body: JSON.stringify({
+        username: trimmedUsername,
+        email: trimmedEmail,
+        password: trimmedPassword,
+      }),
     })
       .then((res) => res.json())
       .then((data) => {
@@ -23,7 +31,7 @@ fetch(`${import.meta.env.VITE_API_URL}/register`, {
           alert("Registered Successfully");
           navigate("/login");
         } else {
-          alert(data.message || "Something went wrong");
+          alert(data.message || "Registration failed");
         }
       })
       .catch(() => alert("Registration failed"));
