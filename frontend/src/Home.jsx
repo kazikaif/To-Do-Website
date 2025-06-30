@@ -82,7 +82,7 @@ const userId = localStorage.getItem("userId");
   return (
     <>
       <Header isLoggedIn={isLoggedIn} />
-      <main>
+      <main className="mai">
         <div className="imp">
           <input
             className="inp1"

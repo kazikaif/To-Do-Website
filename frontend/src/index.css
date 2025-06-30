@@ -500,8 +500,9 @@ main {
     flex-direction: column;
     height: auto;
     padding: 10px;
+    width: 100%;
   }
-
+  
   .title {
     margin-left: 0;
     font-size: 36px;
@@ -537,12 +538,12 @@ main {
   }
 
   .inp1 {
-    width: 100%;
+    width: 80%;
     font-size: 18px;
   }
 
   .inp2 {
-    width: 100%;
+    width: 80%;
     height: 80px;
     font-size: 16px;
   }
@@ -623,3 +624,6 @@ main {
     height: 30px;
   }
 }
+.mai{
+    margin-left: 120px;
+   }
