@@ -106,7 +106,6 @@ const userId = localStorage.getItem("userId");
             {isEditMode ? "Update" : "Add"}
           </button>
         </div>
-      </main>
 
       <div className="view">
         {isLoggedIn ? (
@@ -143,6 +142,8 @@ const userId = localStorage.getItem("userId");
           </div>
         )}
       </div>
+            </main>
+
     </>
   );
 }
