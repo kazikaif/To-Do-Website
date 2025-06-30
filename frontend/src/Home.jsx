@@ -27,12 +27,16 @@ const baseURL = import.meta.env.VITE_API_URL;
     return () => window.removeEventListener("storage", checkLoginStatus);
   }, []);
 
-  const fetchTasks = () => {
-    fetch(`${baseURL}/ToDo`)
-      .then((res) => res.json())
-      .then((data) => setTaskList(data))
-      .catch((e) => console.error("Error fetching tasks:", e));
-  };
+ const fetchTasks = () => {
+  const userId = localStorage.getItem("userId");
+  if (!userId) return;
+
+  fetch(`${baseURL}/ToDo?userId=${userId}`)
+    .then((res) => res.json())
+    .then((data) => setTaskList(data))
+    .catch((e) => console.error("Error fetching tasks:", e));
+};
+
 
   const handleTask = () => {
     if (!isLoggedIn) return alert("Login First");
@@ -43,12 +47,13 @@ const baseURL = import.meta.env.VITE_API_URL;
 
     const method = isEditMode ? "PUT" : "POST";
     const url = isEditMode ? `${baseURL}/update/${editId}` : `${baseURL}/add`;
+const userId = localStorage.getItem("userId");
 
-    fetch(url, {
-      method,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ task, content }),
-    })
+   fetch(url, {
+  method,
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ task, content, userId })
+})
       .then(() => {
         setTask("");
         setContent("");

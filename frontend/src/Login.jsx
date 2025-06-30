@@ -18,18 +18,24 @@ function Login() {
 })
 
       .then((res) => res.json())
-      .then((result) => {
-        if (result.message === "Login successful") {
-          localStorage.setItem("isLoggedIn", "true");
-          localStorage.setItem("userName", result.username);
-          localStorage.setItem("userEmail", result.email);
-          localStorage.setItem("userPassword", password);
-          alert("Login Successfully");
-          navigate("/");
-        } else {
-          alert(result.message);
-        }
-      })
+    .then((result) => {
+  if (result.message === "Login successful") {
+    localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem("userName", result.username);
+    localStorage.setItem("userEmail", result.email);
+    localStorage.setItem("userPassword", password);
+
+    // ✅ Store user ID for task filtering
+   localStorage.setItem("userId", result._id);
+ 
+
+    alert("Login Successfully");
+    navigate("/");
+  } else {
+    alert(result.message);
+  }
+})
+
       .catch(() => alert("Something went wrong"));
   };
 

@@ -18,9 +18,11 @@ mongoose
 
 // Task Schema
 const TaskSchema = new mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, required: true },
   task: { type: String, required: true },
   content: { type: String, required: true },
 });
+
 const Task = mongoose.model("Task", TaskSchema);
 
 // User Schema
@@ -33,8 +35,9 @@ const User = mongoose.model("User", UserSchema);
 
 // Add Task
 app.post("/add", (req, res) => {
-  const { task, content } = req.body;
-  const newTask = new Task({ task, content });
+const { task, content, userId } = req.body;
+const newTask = new Task({ userId, task, content });
+
 
   newTask
     .save()
@@ -46,7 +49,8 @@ app.post("/add", (req, res) => {
 
 // Get All Tasks
 app.get("/ToDo", (req, res) => {
-  Task.find()
+const { userId } = req.query;
+Task.find({ userId })
     .then((data) => res.json(data))
     .catch((e) =>
       res.status(500).json({ error: "Failed to fetch tasks", details: e })
@@ -94,11 +98,13 @@ app.post("/login", (req, res) => {
     .then((user) => {
       if (user) {
         if (user.password === password) {
-          res.json({
-            message: "Login successful",
-            username: user.username,
-            email: user.email,
-          });
+         res.json({
+  message: "Login successful",
+  username: user.username,
+  email: user.email,
+  _id: user._id, // <-- important
+});
+
         } else {
           res.json({ message: "Invalid password" });
         }
