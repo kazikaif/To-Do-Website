@@ -2,6 +2,7 @@
 body {
   margin: 0;
   padding: 0;
+ width: 100%;
   background-color: beige;
 }
 
@@ -384,6 +385,9 @@ header {
 .about {
   padding: 3rem 1rem;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .ab {
   font-size: 50px;
@@ -496,7 +500,7 @@ header {
     flex-direction: column;
     height: auto;
     padding: 10px;
-    width: 100%;
+    width: 95.1%;
   }
   
   .title {

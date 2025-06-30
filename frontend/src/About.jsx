@@ -14,6 +14,8 @@ function About() {
       <Header isLoggedIn={isLoggedIn} />
 
       <section className="about">
+        <div>
+
         <h2 className="ab">About Me</h2>
         <div className="about1">
           <p className="info">
@@ -25,6 +27,7 @@ function About() {
             eager to contribute to real-world projects and grow as a software
             developer.
           </p>
+        </div>
         </div>
       </section>
     </>
