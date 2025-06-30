@@ -12,7 +12,7 @@ function Signin() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    fetch("https://to-do-website-bcwj.onrender.com/register", {
+fetch(`${import.meta.env.VITE_API_URL}/register`, { 
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, email, password }),

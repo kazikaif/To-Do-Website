@@ -12,7 +12,7 @@ function Home() {
   const [editId, setEditId] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-const baseURL = "https://to-do-website-bcwj.onrender.com"; 
+const baseURL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     fetchTasks();
