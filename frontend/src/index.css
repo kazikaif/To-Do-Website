@@ -674,3 +674,34 @@ header {
 .btn2:hover {
   transform: scale(1.02);
 }
+.view {
+  display: grid;
+  justify-content: center; /* This helps center the grid */
+}
+@media (max-width: 768px) {
+  .view {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    justify-content: center;
+  }
+}
+@media (max-width: 768px) {
+  .view {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    justify-content: center;
+
+  }
+  .mai{
+  width: 100%;
+  margin-left: 17px;
+}
+}
+
+@media (max-width: 480px) {
+  .view {
+    padding: 10px;
+    gap: 20px;
+    justify-content: center;
+  }
+}
