@@ -48,9 +48,9 @@ const newTask = new Task({ userId, task, content });
 });
 
 // Get All Tasks
-app.get("/ToDo", (req, res) => {
+app.get("/ToDo", async(req, res) => {
 const { userId } = req.query;
-Task.find({ userId })
+ await Task.find({ userId })
     .then((data) => res.json(data))
     .catch((e) =>
       res.status(500).json({ error: "Failed to fetch tasks", details: e })
@@ -58,8 +58,8 @@ Task.find({ userId })
 });
 
 // Delete Task
-app.delete("/delete/:id", (req, res) => {
-  Task.findByIdAndDelete(req.params.id)
+app.delete("/delete/:id", async (req, res) => {
+  await Task.findByIdAndDelete(req.params.id)
     .then(() => res.json({ message: "Task deleted" }))
     .catch((e) =>
       res.status(500).json({ error: "Failed to delete task", details: e })
@@ -67,9 +67,9 @@ app.delete("/delete/:id", (req, res) => {
 });
 
 // Update Task
-app.put("/update/:id", (req, res) => {
+app.put("/update/:id", async (req, res) => {
   const { task, content } = req.body;
-  Task.findByIdAndUpdate(req.params.id, { task, content })
+  await Task.findByIdAndUpdate(req.params.id, { task, content })
     .then(() => res.json({ message: "Task updated" }))
     .catch((e) =>
       res.status(500).json({ error: "Failed to update task", details: e })
@@ -77,12 +77,12 @@ app.put("/update/:id", (req, res) => {
 });
 
 // Register User
-app.post("/register", (req, res) => {
+app.post("/register", async (req, res) => {
   const { username, email, password } = req.body;
 
   const newUser = new User({ username, email, password });
 
-  newUser
+  await   newUser
     .save()
     .then(() => res.json({ message: "User created" }))
     .catch((e) =>
@@ -91,10 +91,10 @@ app.post("/register", (req, res) => {
 });
 
 // Login User
-app.post("/login", (req, res) => {
+app.post("/login", async(req, res) => {
   const { username, password } = req.body;
 
-  User.findOne({ username })
+await  User.findOne({ username })
     .then((user) => {
       if (user) {
         if (user.password === password) {
@@ -102,7 +102,7 @@ app.post("/login", (req, res) => {
   message: "Login successful",
   username: user.username,
   email: user.email,
-  _id: user._id, // good
+  _id: user._id, 
 });
 
 
