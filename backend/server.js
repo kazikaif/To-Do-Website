@@ -110,7 +110,7 @@ await  User.findOne({ username })
           res.json({ message: "Invalid password" });
         }
       } else {
-        res.json({ message: "User not found" });
+        res.json({ message: "User Not Register" });
       }
     })
     .catch((e) => {
